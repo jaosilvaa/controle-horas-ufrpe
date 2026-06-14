@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\IHM\\\\controle_horas\\\\lib\\\\src\\\\app\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\IHM\\\\controle_horas\\\\lib\\\\src\\\\ui\\\\features\\\\categories\\\\pages\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\IHM\\\\controle_horas\\\\lib\\\\src\\\\ui\\\\features\\\\create\\\\pages\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\IHM\\\\controle_horas\\\\lib\\\\src\\\\ui\\\\features\\\\settings\\\\pages\")"
+    ]
+  }
+}

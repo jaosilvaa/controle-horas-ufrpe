@@ -1,0 +1,93 @@
+import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
+import 'package:controle_horas/src/core/theme/app_colors.dart';
+import 'package:controle_horas/src/ui/features/home/controllers/home_controller.dart';
+import '../widgets/home_header.dart';
+import '../widgets/total_card.dart';
+import '../widgets/category_card.dart';
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  static const double _horizontalPadding = 16;
+
+  @override
+  Widget build(BuildContext context) {
+    final home = context.watch<HomeController>();
+    final resumo = home.resumo;
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    return Scaffold(
+      drawer: const Drawer(),
+      appBar: AppBar(
+        backgroundColor: theme.brightness == Brightness.dark ? Colors.black : AppColors.white,
+        toolbarHeight: 72,
+        titleSpacing: 0,
+        title: const Padding(
+          padding: EdgeInsets.only(right: _horizontalPadding),
+          child: HomeHeader(),
+        ),
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.zero,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: theme.scaffoldBackgroundColor,
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(28),
+                  bottomRight: Radius.circular(28),
+                ),
+              ),
+              padding: const EdgeInsets.fromLTRB(
+                _horizontalPadding,
+                14,
+                _horizontalPadding,
+                20,
+              ),
+              child: const TotalCard(),
+            ),
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: _horizontalPadding),
+              child: Column(
+                children: [
+                  CategoryCard(
+                    title: 'Ensino',
+                    subtitle: '${resumo.ensino.toInt()}h / 360h',
+                    progress: resumo.progressEnsino,
+                    icon: Iconsax.teacher,
+                    onTap: () => context.push('/listagem/ensino'),
+                  ),
+                  const SizedBox(height: 12),
+                  CategoryCard(
+                    title: 'Pesquisa',
+                    subtitle: '${resumo.pesquisa.toInt()}h / 360h',
+                    progress: resumo.progressPesquisa,
+                    icon: Iconsax.microscope,
+                    onTap: () => context.push('/listagem/pesquisa'),
+                  ),
+                  const SizedBox(height: 12),
+                  CategoryCard(
+                    title: 'Extensão',
+                    subtitle: '${resumo.extensao.toInt()}h / 360h',
+                    progress: resumo.progressExtensao,
+                    icon: Iconsax.global,
+                    onTap: () => context.push('/listagem/extensao'),
+                  ),
+                  const SizedBox(height: 20),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
