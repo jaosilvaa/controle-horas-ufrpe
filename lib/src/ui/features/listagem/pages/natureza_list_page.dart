@@ -56,7 +56,7 @@ class _NaturezaListPageState extends State<NaturezaListPage> {
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: theme.colorScheme.surface,
+        backgroundColor: isDark ? theme.scaffoldBackgroundColor : Colors.white,
         foregroundColor: titleColor,
         centerTitle: true,
         leading: IconButton(
@@ -133,7 +133,12 @@ class _EmptyState extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             FilledButton(
-              onPressed: () => context.push(_rota),
+              onPressed: () async {
+                await context.push(_rota);
+                if (context.mounted) {
+                  context.read<NaturezaListController>().carregar();
+                }
+              },
               child: const Text('Cadastrar atividade'),
             ),
           ],
@@ -180,7 +185,12 @@ class _ListBody extends StatelessWidget {
           atividades: atividades,
           horasEfetivas: horasEfetivas,
           icon: icon,
-          onDelete: (id) => ctrl.deletar(id),
+          onDelete: (id) async {
+            await ctrl.deletar(id);
+            if (context.mounted) {
+              context.read<HomeController>().carregar();
+            }
+          },
           onEdit: (a) => _navegarParaEdicao(context, a),
         );
       },
@@ -461,7 +471,7 @@ class _SwipeableAtividadeTileState extends State<_SwipeableAtividadeTile>
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
 
-    final tileBg = isDark ? const Color(0xFF252529) : AppColors.neutralLightGrey;
+    final tileBg = isDark ? AppColors.darkProgressBg : AppColors.white;
     final tileText = isDark ? AppColors.white : AppColors.neutralGrey900;
     final horasColor = isDark ? AppColors.darkSubtitle : AppColors.neutralDarkGrey;
     final horasBadgeBg = isDark ? const Color(0xFF2B2B2B) : AppColors.neutralMidLightGrey;
@@ -505,9 +515,9 @@ class _SwipeableAtividadeTileState extends State<_SwipeableAtividadeTile>
                             _close();
                             _showDetalhes(context, openEdit: true);
                           },
-                          child: const Icon(
+                          child: Icon(
                             Icons.edit_outlined,
-                            color: AppColors.white,
+                            color: isDark ? AppColors.white : AppColors.neutralGrey900,
                             size: 18,
                           ),
                         ),

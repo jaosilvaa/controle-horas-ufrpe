@@ -29,11 +29,14 @@ class PesquisaPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ctrl = context.watch<PesquisaController>();
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: isDark ? Colors.black : AppColors.white,
+        backgroundColor:
+            isDark ? theme.scaffoldBackgroundColor : AppColors.white,
         elevation: 0,
         scrolledUnderElevation: 0,
         surfaceTintColor: Colors.transparent,
@@ -246,9 +249,15 @@ class PesquisaPage extends StatelessWidget {
                   const SizedBox(height: 8),
                   _TotalHorasDisplay(horas: ctrl.totalHorasEstagio),
                   const SizedBox(height: 6),
-                  _HelperText(
-                    'A cada 6 meses com mín. 20h semanais, contabilizam-se 60h/a',
-                  ),
+                  if (ctrl.estagioAtingiuLimite)
+                    _HelperText(
+                      'Limite máximo de 120h/a atingido para esta classificação.',
+                      isWarning: true,
+                    )
+                  else
+                    _HelperText(
+                      'A cada 6 meses com mín. 20h semanais, contabilizam-se 60h/a',
+                    ),
                 ],
               ],
               const SizedBox(height: 32),
@@ -389,7 +398,9 @@ void _showTipoPublicacaoSheet(
                   title: Text(
                     opt.label,
                     style: TextStyle(
-                      color: isSelected ? AppColors.primary : itemColor,
+                      color: isSelected
+                          ? Theme.of(ctx).colorScheme.primary
+                          : itemColor,
                       fontWeight:
                           isSelected ? FontWeight.w600 : FontWeight.w400,
                     ),
@@ -407,7 +418,7 @@ void _showTipoPublicacaoSheet(
                       if (isSelected) ...[
                         const SizedBox(width: 8),
                         Icon(Icons.check_rounded,
-                            color: AppColors.primary, size: 20),
+                            color: Theme.of(ctx).colorScheme.primary, size: 20),
                       ],
                     ],
                   ),
@@ -436,12 +447,18 @@ Future<void> _pickDatePublicacao(
     firstDate: DateTime(2000),
     lastDate: DateTime(2035),
     builder: (ctx, child) => Theme(
-      data: ThemeData.dark().copyWith(
-        colorScheme: ColorScheme.dark(
-          primary: AppColors.primary,
-          surface: fieldBg,
-          onSurface: Colors.white,
-        ),
+      data: (isDark ? ThemeData.dark() : ThemeData.light()).copyWith(
+        colorScheme: isDark
+            ? ColorScheme.dark(
+                primary: AppColors.white,
+                surface: fieldBg,
+                onSurface: Colors.white,
+              )
+            : ColorScheme.light(
+                primary: AppColors.neutralGrey900,
+                surface: fieldBg,
+                onSurface: AppColors.neutralGrey900,
+              ),
         dialogTheme: DialogThemeData(backgroundColor: fieldBg),
       ),
       child: child!,
@@ -519,14 +536,15 @@ void _showOptionsSheet(
               title: Text(
                 options[i],
                 style: TextStyle(
-                  color: isSelected ? AppColors.primary : itemColor,
+                  color:
+                      isSelected ? Theme.of(ctx).colorScheme.primary : itemColor,
                   fontWeight:
                       isSelected ? FontWeight.w600 : FontWeight.w400,
                 ),
               ),
               trailing: isSelected
                   ? Icon(Icons.check_rounded,
-                      color: AppColors.primary, size: 20)
+                      color: Theme.of(ctx).colorScheme.primary, size: 20)
                   : null,
               onTap: () {
                 onSelect(i);
@@ -558,12 +576,18 @@ Future<void> _pickDate(
     firstDate: DateTime(2020),
     lastDate: DateTime(2035),
     builder: (ctx, child) => Theme(
-      data: ThemeData.dark().copyWith(
-        colorScheme: ColorScheme.dark(
-          primary: AppColors.primary,
-          surface: fieldBg,
-          onSurface: Colors.white,
-        ),
+      data: (isDark ? ThemeData.dark() : ThemeData.light()).copyWith(
+        colorScheme: isDark
+            ? ColorScheme.dark(
+                primary: AppColors.white,
+                surface: fieldBg,
+                onSurface: Colors.white,
+              )
+            : ColorScheme.light(
+                primary: AppColors.neutralGrey900,
+                surface: fieldBg,
+                onSurface: AppColors.neutralGrey900,
+              ),
         dialogTheme: DialogThemeData(backgroundColor: fieldBg),
       ),
       child: child!,
@@ -625,7 +649,8 @@ class _Label extends StatelessWidget {
 
 class _HelperText extends StatelessWidget {
   final String text;
-  const _HelperText(this.text);
+  final bool isWarning;
+  const _HelperText(this.text, {this.isWarning = false});
 
   @override
   Widget build(BuildContext context) {
@@ -633,9 +658,11 @@ class _HelperText extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
-        color: isDark
-            ? Colors.white.withValues(alpha: 0.4)
-            : AppColors.neutralBaseGrey,
+        color: isWarning
+            ? Colors.orange
+            : isDark
+                ? Colors.white.withValues(alpha: 0.4)
+                : AppColors.neutralBaseGrey,
         fontSize: 12,
       ),
     );
@@ -686,7 +713,9 @@ class _DarkTextField extends StatelessWidget {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide:
-              const BorderSide(color: AppColors.primary, width: 1.5),
+              BorderSide(
+                  color: isDark ? AppColors.white : AppColors.black,
+                  width: 1.5),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),

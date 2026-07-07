@@ -32,7 +32,7 @@ class TotalCard extends StatelessWidget {
       height: 150,
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
+        color: isDark ? AppColors.black : AppColors.white,
         borderRadius: BorderRadius.circular(22),
       ),
       child: Stack(

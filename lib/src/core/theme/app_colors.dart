@@ -7,6 +7,15 @@ class AppColors {
   static const Color white = Color(0xFFFFFFFF);
   static const Color black = Color(0xFF000000);
 
+  /// Cor de destaque das telas de autenticação (botões, links, bordas).
+  /// Preto no modo claro e branco no escuro — substitui o azul nessas telas.
+  static Color authAccent(Brightness b) =>
+      b == Brightness.dark ? white : black;
+
+  /// Cor do conteúdo (texto/ícone) que fica EM CIMA do [authAccent].
+  static Color authOnAccent(Brightness b) =>
+      b == Brightness.dark ? black : white;
+
   static const Color success = Color(0xFF4CAF50);
   static const Color warning = Color(0xFFFF9800);
   static const Color error = Color(0xFFFF5252);

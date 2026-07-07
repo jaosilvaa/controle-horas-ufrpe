@@ -3,6 +3,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:controle_horas/src/core/theme/app_colors.dart';
+import 'package:controle_horas/src/app/main_navigation.dart';
 import 'package:controle_horas/src/ui/features/home/controllers/home_controller.dart';
 import '../widgets/home_header.dart';
 import '../widgets/total_card.dart';
@@ -21,11 +22,17 @@ class HomePage extends StatelessWidget {
     final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
-      drawer: const Drawer(),
       appBar: AppBar(
-        backgroundColor: theme.brightness == Brightness.dark ? Colors.black : AppColors.white,
+        // Light: preto (padrão de fundo escuro). Dark: branco (inverso).
+        backgroundColor: isDark ? AppColors.white : AppColors.darkScaffold,
         toolbarHeight: 72,
         titleSpacing: 0,
+        // Ícone do Drawer sempre com contraste sobre o fundo do AppBar
+        iconTheme: IconThemeData(color: isDark ? Colors.black : Colors.white),
+        leading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: openAppDrawer,
+        ),
         title: const Padding(
           padding: EdgeInsets.only(right: _horizontalPadding),
           child: HomeHeader(),
@@ -39,7 +46,8 @@ class HomePage extends StatelessWidget {
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                color: theme.scaffoldBackgroundColor,
+                // Light: preto (padrão de fundo escuro). Dark: branco (inverso).
+                color: isDark ? AppColors.white : AppColors.darkScaffold,
                 borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(28),
                   bottomRight: Radius.circular(28),
@@ -81,7 +89,7 @@ class HomePage extends StatelessWidget {
                     icon: Iconsax.global,
                     onTap: () => context.push('/listagem/extensao'),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 110),
                 ],
               ),
             ),

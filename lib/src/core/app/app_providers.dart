@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:controle_horas/src/core/config/supabase_config.dart';
 import 'package:controle_horas/src/core/di/injection_container.dart';
+import 'package:controle_horas/src/ui/features/auth/controllers/auth_controller.dart';
 import 'package:controle_horas/src/ui/features/home/controllers/home_controller.dart';
 import 'package:controle_horas/src/ui/features/settings/controllers/theme_controller.dart';
 
@@ -12,10 +14,15 @@ class AppProviders extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => sl<ThemeController>()..init()),
+        // Já inicializado em main() antes do runApp, pra evitar o "flash"
+        // do tema padrão antes do tema salvo ser carregado.
+        ChangeNotifierProvider(create: (_) => sl<ThemeController>()),
         ChangeNotifierProvider(
           create: (_) => sl<HomeController>()..carregar(),
         ),
+        // Só registra o AuthController quando o Supabase estiver configurado.
+        if (SupabaseConfig.isConfigured)
+          ChangeNotifierProvider(create: (_) => sl<AuthController>()),
       ],
       child: child,
     );

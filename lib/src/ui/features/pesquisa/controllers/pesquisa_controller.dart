@@ -119,13 +119,21 @@ class PesquisaController extends ChangeNotifier {
       _tipo == PesquisaTipo.estagio ||
       _tipo == PesquisaTipo.atividadeProfissional;
 
-  /// Cada bloco de 6 meses (≈ 180 dias) com ≥ 20h/sem = 60 h/a
+  /// Cada bloco de 6 meses (≈ 180 dias) com ≥ 20h/sem = 60 h/a, máx 120h
   double get totalHorasEstagio {
     if (_dataInicial == null || _dataFinal == null) return 0;
     if (!_dataFinal!.isAfter(_dataInicial!)) return 0;
     final dias = _dataFinal!.difference(_dataInicial!).inDays;
     final blocos = (dias / 180).floor();
-    return blocos * 60.0;
+    return (blocos * 60.0).clamp(0, 120);
+  }
+
+  /// True quando o período informado geraria mais de 120h (limite da classificação)
+  bool get estagioAtingiuLimite {
+    if (_dataInicial == null || _dataFinal == null) return false;
+    if (!_dataFinal!.isAfter(_dataInicial!)) return false;
+    final dias = _dataFinal!.difference(_dataInicial!).inDays;
+    return (dias / 180).floor() * 60.0 >= 120;
   }
 
   /// Total para Projeto/Grupo: semestres×60 ou horas÷4 (maior dos dois)

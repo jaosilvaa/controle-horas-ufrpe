@@ -28,20 +28,18 @@ class AppTheme {
     final theme = ThemeData.light(useMaterial3: true);
 
     const overlay = Colors.black;
-    final neutralOverlay = WidgetStateProperty.resolveWith<Color?>(
-      (states) {
-        if (states.contains(WidgetState.pressed)) {
-          return overlay.withValues(alpha: 0.06);
-        }
-        if (states.contains(WidgetState.hovered)) {
-          return overlay.withValues(alpha: 0.04);
-        }
-        if (states.contains(WidgetState.focused)) {
-          return overlay.withValues(alpha: 0.04);
-        }
-        return Colors.transparent;
-      },
-    );
+    final neutralOverlay = WidgetStateProperty.resolveWith<Color?>((states) {
+      if (states.contains(WidgetState.pressed)) {
+        return overlay.withValues(alpha: 0.06);
+      }
+      if (states.contains(WidgetState.hovered)) {
+        return overlay.withValues(alpha: 0.04);
+      }
+      if (states.contains(WidgetState.focused)) {
+        return overlay.withValues(alpha: 0.04);
+      }
+      return Colors.transparent;
+    });
 
     return theme.copyWith(
       splashFactory: NoSplash.splashFactory,
@@ -60,7 +58,8 @@ class AppTheme {
       ),
       scaffoldBackgroundColor: scaffold,
       colorScheme: const ColorScheme.light(
-        primary: AppColors.primary,
+        // Cor principal do app: preto no claro (antes era azul).
+        primary: AppColors.black,
         secondary: AppColors.neutralLightGrey,
         surface: surface,
         tertiary: AppColors.neutralMidLightGrey,
@@ -96,7 +95,7 @@ class AppTheme {
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: scaffold,
-        selectedItemColor: AppColors.primary,
+        selectedItemColor: AppColors.black,
         unselectedItemColor: AppColors.neutralBaseGrey,
         elevation: 0,
       ),
@@ -109,20 +108,18 @@ class AppTheme {
     final theme = ThemeData.dark(useMaterial3: true);
 
     const overlay = Colors.white;
-    final neutralOverlay = WidgetStateProperty.resolveWith<Color?>(
-      (states) {
-        if (states.contains(WidgetState.pressed)) {
-          return overlay.withValues(alpha: 0.08);
-        }
-        if (states.contains(WidgetState.hovered)) {
-          return overlay.withValues(alpha: 0.05);
-        }
-        if (states.contains(WidgetState.focused)) {
-          return overlay.withValues(alpha: 0.05);
-        }
-        return Colors.transparent;
-      },
-    );
+    final neutralOverlay = WidgetStateProperty.resolveWith<Color?>((states) {
+      if (states.contains(WidgetState.pressed)) {
+        return overlay.withValues(alpha: 0.08);
+      }
+      if (states.contains(WidgetState.hovered)) {
+        return overlay.withValues(alpha: 0.05);
+      }
+      if (states.contains(WidgetState.focused)) {
+        return overlay.withValues(alpha: 0.05);
+      }
+      return Colors.transparent;
+    });
 
     return theme.copyWith(
       splashFactory: NoSplash.splashFactory,
@@ -141,11 +138,12 @@ class AppTheme {
       ),
       scaffoldBackgroundColor: scaffold,
       colorScheme: const ColorScheme.dark(
-        primary: AppColors.primary,
+        // Cor principal do app: branco no escuro (antes era azul).
+        primary: AppColors.white,
         secondary: AppColors.neutralGrey950,
         surface: surface,
         tertiary: AppColors.darkBorder,
-        onPrimary: AppColors.white,
+        onPrimary: AppColors.black,
         onSecondary: AppColors.white,
         onSurface: AppColors.darkPrimaryText,
         outline: AppColors.neutralGrey900,

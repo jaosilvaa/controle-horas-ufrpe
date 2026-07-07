@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:controle_horas/src/core/theme/app_colors.dart';
+import 'package:controle_horas/src/app/main_navigation.dart';
 
 class CreatePage extends StatelessWidget {
   const CreatePage({super.key});
@@ -13,10 +14,13 @@ class CreatePage extends StatelessWidget {
     final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
-      drawer: const Drawer(),
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Cadastrar'),
+        leading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: openAppDrawer,
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),

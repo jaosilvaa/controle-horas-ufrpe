@@ -29,11 +29,14 @@ class ExtensaoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ctrl = context.watch<ExtensaoController>();
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: isDark ? Colors.black : AppColors.white,
+        backgroundColor:
+            isDark ? theme.scaffoldBackgroundColor : AppColors.white,
         elevation: 0,
         scrolledUnderElevation: 0,
         surfaceTintColor: Colors.transparent,
@@ -313,7 +316,10 @@ class ExtensaoPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12),
                             border: isSelected
                                 ? Border.all(
-                                    color: AppColors.primary, width: 1.5)
+                                    color: isDark
+                                        ? AppColors.white
+                                        : AppColors.black,
+                                    width: 1.5)
                                 : null,
                           ),
                           child: Row(
@@ -594,14 +600,16 @@ void _showOptionsSheet(
                   title: Text(
                     options[i],
                     style: TextStyle(
-                      color: isSelected ? AppColors.primary : itemColor,
+                      color: isSelected
+                          ? Theme.of(ctx).colorScheme.primary
+                          : itemColor,
                       fontWeight:
                           isSelected ? FontWeight.w600 : FontWeight.w400,
                     ),
                   ),
                   trailing: isSelected
                       ? Icon(Icons.check_rounded,
-                          color: AppColors.primary, size: 20)
+                          color: Theme.of(ctx).colorScheme.primary, size: 20)
                       : null,
                   onTap: () {
                     onSelect(i);
@@ -635,12 +643,18 @@ Future<void> _pickDate(
     firstDate: DateTime(2020),
     lastDate: DateTime(2035),
     builder: (ctx, child) => Theme(
-      data: ThemeData.dark().copyWith(
-        colorScheme: ColorScheme.dark(
-          primary: AppColors.primary,
-          surface: fieldBg,
-          onSurface: Colors.white,
-        ),
+      data: (isDark ? ThemeData.dark() : ThemeData.light()).copyWith(
+        colorScheme: isDark
+            ? ColorScheme.dark(
+                primary: AppColors.white,
+                surface: fieldBg,
+                onSurface: Colors.white,
+              )
+            : ColorScheme.light(
+                primary: AppColors.neutralGrey900,
+                surface: fieldBg,
+                onSurface: AppColors.neutralGrey900,
+              ),
         dialogTheme: DialogThemeData(backgroundColor: fieldBg),
       ),
       child: child!,
@@ -662,12 +676,18 @@ Future<void> _pickDataApresentacao(
     firstDate: DateTime(2020),
     lastDate: DateTime(2035),
     builder: (ctx, child) => Theme(
-      data: ThemeData.dark().copyWith(
-        colorScheme: ColorScheme.dark(
-          primary: AppColors.primary,
-          surface: fieldBg,
-          onSurface: Colors.white,
-        ),
+      data: (isDark ? ThemeData.dark() : ThemeData.light()).copyWith(
+        colorScheme: isDark
+            ? ColorScheme.dark(
+                primary: AppColors.white,
+                surface: fieldBg,
+                onSurface: Colors.white,
+              )
+            : ColorScheme.light(
+                primary: AppColors.neutralGrey900,
+                surface: fieldBg,
+                onSurface: AppColors.neutralGrey900,
+              ),
         dialogTheme: DialogThemeData(backgroundColor: fieldBg),
       ),
       child: child!,
@@ -798,7 +818,9 @@ class _DarkTextField extends StatelessWidget {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide:
-              const BorderSide(color: AppColors.primary, width: 1.5),
+              BorderSide(
+                  color: isDark ? AppColors.white : AppColors.black,
+                  width: 1.5),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -1077,8 +1099,8 @@ class _CheckboxTile extends StatelessWidget {
               child: Checkbox(
                 value: value,
                 onChanged: (v) => onChanged(v ?? false),
-                activeColor: AppColors.primary,
-                checkColor: Colors.white,
+                activeColor: isDark ? AppColors.white : AppColors.black,
+                checkColor: isDark ? AppColors.black : Colors.white,
                 side: BorderSide(
                   color: isDark
                       ? Colors.white.withValues(alpha: 0.3)
@@ -1123,7 +1145,7 @@ class _RadioDot extends StatelessWidget {
         shape: BoxShape.circle,
         border: Border.all(
           color: selected
-              ? AppColors.primary
+              ? (isDark ? AppColors.white : AppColors.black)
               : isDark
                   ? Colors.white.withValues(alpha: 0.3)
                   : AppColors.neutralBaseGrey,
@@ -1137,7 +1159,7 @@ class _RadioDot extends StatelessWidget {
                 height: 10,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: AppColors.primary,
+                  color: isDark ? AppColors.white : AppColors.black,
                 ),
               ),
             )
@@ -1181,7 +1203,7 @@ class _ComissaoToggle extends StatelessWidget {
             onChanged: onChanged,
             thumbColor: WidgetStateProperty.resolveWith<Color>((states) {
               if (states.contains(WidgetState.selected)) {
-                return Colors.white;
+                return isDark ? AppColors.black : Colors.white;
               }
               return isDark
                   ? Colors.white.withValues(alpha: 0.5)
@@ -1189,7 +1211,7 @@ class _ComissaoToggle extends StatelessWidget {
             }),
             trackColor: WidgetStateProperty.resolveWith<Color>((states) {
               if (states.contains(WidgetState.selected)) {
-                return AppColors.primary;
+                return isDark ? AppColors.white : AppColors.black;
               }
               return isDark
                   ? Colors.white.withValues(alpha: 0.12)
