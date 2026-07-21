@@ -73,7 +73,6 @@ final routes = GoRouter(
       builder: (context, state) => const SplashPage(),
     ),
 
-    // ── Telas de autenticação (sem bottom nav) ──────────────────────────
     GoRoute(
       path: '/login',
       parentNavigatorKey: _rootNavigatorKey,
@@ -95,7 +94,6 @@ final routes = GoRouter(
       builder: (context, state) => const ResetPasswordPage(),
     ),
 
-    // ── Shell (com bottom nav) ──────────────────────────────────────────
     ShellRoute(
       navigatorKey: _shellNavigatorKey,
       builder: (context, state, child) => MainScreen(child: child),
@@ -119,7 +117,6 @@ final routes = GoRouter(
       ],
     ),
 
-    // ── Sub-telas (sem bottom nav) ──────────────────────────────────────
     GoRoute(
       path: '/pesquisa/novo',
       parentNavigatorKey: _rootNavigatorKey,

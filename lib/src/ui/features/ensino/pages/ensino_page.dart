@@ -61,7 +61,6 @@ class EnsinoPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ── TÍTULO ──────────────────────────────────────────────
               const _Label('Título'),
               const SizedBox(height: 8),
               _DarkTextField(
@@ -73,7 +72,6 @@ class EnsinoPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
 
-              // ── CLASSIFICAÇÃO ────────────────────────────────────────
               const _Label('Classificação'),
               const SizedBox(height: 8),
               _DropdownField(
@@ -84,7 +82,6 @@ class EnsinoPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
 
-              // ── TIPO ─────────────────────────────────────────────────
               const _Label('Tipo'),
               const SizedBox(height: 8),
               _DropdownField(
@@ -98,7 +95,6 @@ class EnsinoPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
 
-              // ── CAMPOS CALCULO SEGMENTADO (Monitoria/PET/PIBID/BIA/Projeto) ──
               if (ctrl.showCalculoFields) ...[
                 const _Label('Tipo de Cálculo'),
                 const SizedBox(height: 8),
@@ -203,7 +199,6 @@ class EnsinoPage extends StatelessWidget {
                 ],
               ],
 
-              // ── CAMPOS CARGA × 3 (Discussões Temáticas / Cursos) ────
               if (ctrl.showCargaX3Fields) ...[
                 const _Label('Carga horária'),
                 const SizedBox(height: 8),
@@ -246,7 +241,6 @@ class EnsinoPage extends StatelessWidget {
                 ),
               ],
 
-              // ── CAMPOS ARTEFATOS × 15 (Prática Integrada) ───────────
               if (ctrl.showArtefatosFields) ...[
                 const _Label('Quantidade de artefatos'),
                 const SizedBox(height: 8),
@@ -289,7 +283,6 @@ class EnsinoPage extends StatelessWidget {
 
               const SizedBox(height: 32),
 
-              // ── BOTÃO CADASTRAR ──────────────────────────────────────
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -317,8 +310,6 @@ class EnsinoPage extends StatelessWidget {
     );
   }
 }
-
-// ─── Funções de página ────────────────────────────────────────────────────────
 
 void _showClassificacaoSheet(BuildContext context, EnsinoController ctrl) {
   final options = EnsinoClassificacao.values;
@@ -531,8 +522,6 @@ Future<void> _cadastrar(BuildContext context, EnsinoController ctrl) async {
   context.showFeedback('Atividade cadastrada com sucesso!');
   context.pop();
 }
-
-// ─── Widgets privados ─────────────────────────────────────────────────────────
 
 class _Label extends StatelessWidget {
   final String text;

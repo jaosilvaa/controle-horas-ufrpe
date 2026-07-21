@@ -34,7 +34,6 @@ class SettingsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // ── Card de perfil ───────────────────────────────────────────
             if (configurado) ...[
               _ProfileCard(
                 nome: auth.nomeUsuario ?? 'Não identificado',
@@ -43,7 +42,6 @@ class SettingsPage extends StatelessWidget {
               const SizedBox(height: 24),
             ],
 
-            // ── Lista de opções ──────────────────────────────────────────
             ...comDivisoresDiscretos(context, [
               SettingsTile(
                 icon: Iconsax.moon,
@@ -70,10 +68,6 @@ class SettingsPage extends StatelessWidget {
     );
   }
 }
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Card de perfil (avatar + nome + email)
-// ─────────────────────────────────────────────────────────────────────────────
 
 class _ProfileCard extends StatelessWidget {
   final String nome;

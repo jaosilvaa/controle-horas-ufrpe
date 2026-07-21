@@ -68,10 +68,6 @@ class EstatisticasPage extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Card com o círculo de progresso total (180h / 360h)
-// ─────────────────────────────────────────────────────────────────────────────
-
 class _TotalGeralCard extends StatelessWidget {
   final ResumoBarema resumo;
 
@@ -151,10 +147,6 @@ class _TotalGeralCard extends StatelessWidget {
     );
   }
 }
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Linha de progresso por natureza (Ensino / Pesquisa / Extensão)
-// ─────────────────────────────────────────────────────────────────────────────
 
 class _NaturezaRow extends StatelessWidget {
   final IconData icon;

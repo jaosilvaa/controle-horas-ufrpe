@@ -16,10 +16,6 @@ class AuthHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    // assets/logo.png é 3072x3072 — decodificar nesse tamanho cheio só pra
-    // mostrar em poucos pixels na tela trava o primeiro frame. Pedindo pro
-    // decoder já gerar no tamanho exibido (considerando a densidade da
-    // tela) evita esse atraso.
     final decodeSize =
         (logoSize * MediaQuery.devicePixelRatioOf(context)).round();
 

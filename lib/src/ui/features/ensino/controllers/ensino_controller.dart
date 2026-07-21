@@ -4,8 +4,6 @@ import 'package:controle_horas/src/data/repositories/atividade_repository.dart';
 import 'package:controle_horas/src/shared/models/tipo_calculo.dart';
 export 'package:controle_horas/src/shared/models/tipo_calculo.dart';
 
-// ─── Classificações ───────────────────────────────────────────────────────────
-
 enum EnsinoClassificacao {
   iniciacaoDocencia,
   discussoesTematicas,
@@ -17,8 +15,6 @@ enum EnsinoClassificacao {
         EnsinoClassificacao.topicosEspeciais => 'Tópicos Especiais',
       };
 }
-
-// ─── Tipos ────────────────────────────────────────────────────────────────────
 
 enum EnsinoTipo {
   monitoria,
@@ -41,8 +37,6 @@ enum EnsinoTipo {
         EnsinoTipo.projetoEnsino => 'Projeto de Ensino',
       };
 }
-
-// ─── Controller ───────────────────────────────────────────────────────────────
 
 class EnsinoController extends ChangeNotifier {
   final AtividadeRepository _repo;
@@ -72,7 +66,6 @@ class EnsinoController extends ChangeNotifier {
   DateTime? _dataFinal;
   DateTime? _dataApresentacao;
 
-  // ── Erros para campos fora do Form ──────────────────────────────────────────
   String? classificacaoError;
   String? tipoError;
   String? dataInicialError;
@@ -81,8 +74,6 @@ class EnsinoController extends ChangeNotifier {
   String? cargaSimError;
   String? artefatosError;
   String? dataApresentacaoError;
-
-  // ─── Getters ────────────────────────────────────────────────────────────────
 
   EnsinoClassificacao? get classificacao => _classificacao;
   EnsinoTipo? get tipo => _tipo;
@@ -176,8 +167,6 @@ class EnsinoController extends ChangeNotifier {
     };
   }
 
-  // ─── Setters ────────────────────────────────────────────────────────────────
-
   void setClassificacao(EnsinoClassificacao value) {
     _classificacao = value;
     _tipo = null;
@@ -250,8 +239,6 @@ class EnsinoController extends ChangeNotifier {
     dataApresentacaoError = null;
   }
 
-  // ─── Persistência ───────────────────────────────────────────────────────────
-
   Future<AtividadeModel> salvar() {
     double horas;
     if (showCalculoFields) {
@@ -274,8 +261,6 @@ class EnsinoController extends ChangeNotifier {
     );
     return _repo.salvar(atividade);
   }
-
-  // ─── Validação ──────────────────────────────────────────────────────────────
 
   bool validate() {
     final formValid = formKey.currentState?.validate() ?? false;

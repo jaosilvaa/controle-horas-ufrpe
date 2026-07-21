@@ -19,8 +19,6 @@ class AuthController extends ChangeNotifier {
   StreamSubscription<AuthState>? _authSub;
 
   AuthController(this._authService) {
-    // Sempre que o login mudar (entrou/saiu), avisa quem estiver ouvindo.
-    // É isso que faz o go_router reavaliar a rota e levar pro lugar certo.
     _authSub = _authService.onAuthStateChange.listen((data) {
       // O link de recuperação abriu o app: vamos para a tela de nova senha.
       if (data.event == AuthChangeEvent.passwordRecovery) {

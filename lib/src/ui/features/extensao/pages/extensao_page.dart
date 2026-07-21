@@ -61,7 +61,6 @@ class ExtensaoPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ── TÍTULO ──────────────────────────────────────────────
               const _Label('Título'),
               const SizedBox(height: 8),
               _DarkTextField(
@@ -73,7 +72,6 @@ class ExtensaoPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
 
-              // ── CLASSIFICAÇÃO ────────────────────────────────────────
               const _Label('Classificação'),
               const SizedBox(height: 8),
               _DropdownField(
@@ -84,7 +82,6 @@ class ExtensaoPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
 
-              // ── TIPO (apenas para Curso de Extensão) ─────────────────
               if (ctrl.showTipoField) ...[
                 const _Label('Tipo'),
                 const SizedBox(height: 8),
@@ -97,7 +94,6 @@ class ExtensaoPage extends StatelessWidget {
                 const SizedBox(height: 20),
               ],
 
-              // ── CAMPOS SEGMENTED (Programa / Projeto) ────────────────
               if (ctrl.showCalculoFields) ...[
                 const _Label('Tipo de Cálculo'),
                 const SizedBox(height: 8),
@@ -178,7 +174,6 @@ class ExtensaoPage extends StatelessWidget {
                 const SizedBox(height: 20),
               ],
 
-              // ── CAMPOS CARGA × 3 (Curso de Extensão) ────────────────
               if (ctrl.showCargaFields) ...[
                 const _Label('Carga horária'),
                 const SizedBox(height: 8),
@@ -226,7 +221,6 @@ class ExtensaoPage extends StatelessWidget {
                 const SizedBox(height: 20),
               ],
 
-              // ── CAMPOS PARTICIPAÇÃO EM ELEIÇÃO ───────────────────────
               if (ctrl.showElecaoFields) ...[
                 const _Label('Turnos realizados'),
                 const SizedBox(height: 8),
@@ -276,7 +270,6 @@ class ExtensaoPage extends StatelessWidget {
                 ),
               ],
 
-              // ── CAMPOS PRODUTO DE EXTENSÃO ───────────────────────────
               if (ctrl.showProdutoFields) ...[
                 const _Label('Quantidade de Artefatos'),
                 const SizedBox(height: 8),
@@ -315,7 +308,6 @@ class ExtensaoPage extends StatelessWidget {
                 ),
               ],
 
-              // ── CAMPOS EVENTO DE EXTENSÃO ─────────────────────────────
               if (ctrl.showEventoFields) ...[
                 const _Label('Tipo de evento'),
                 const SizedBox(height: 8),
@@ -420,7 +412,6 @@ class ExtensaoPage extends StatelessWidget {
                 const SizedBox(height: 20),
               ],
 
-              // ── DATAS ini + fin (Curso / Programa / Projeto / Evento) ─
               if (ctrl.showCalculoFields ||
                   ctrl.showCargaFields ||
                   ctrl.showEventoFields) ...[
@@ -470,7 +461,6 @@ class ExtensaoPage extends StatelessWidget {
 
               const SizedBox(height: 32),
 
-              // ── BOTÃO CADASTRAR ──────────────────────────────────────
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -502,8 +492,6 @@ class ExtensaoPage extends StatelessWidget {
     );
   }
 }
-
-// ─── Funções de página ────────────────────────────────────────────────────────
 
 void _showClassificacaoSheet(
     BuildContext context, ExtensaoController ctrl) {
@@ -743,8 +731,6 @@ Future<void> _cadastrar(BuildContext context, ExtensaoController ctrl) async {
   context.showFeedback('Atividade cadastrada com sucesso!');
   context.pop();
 }
-
-// ─── Widgets privados ─────────────────────────────────────────────────────────
 
 class _Label extends StatelessWidget {
   final String text;

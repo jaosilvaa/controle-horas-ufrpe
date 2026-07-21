@@ -87,8 +87,6 @@ class _ThemeOption extends StatelessWidget {
             Expanded(
               child: Text(label, style: theme.textTheme.bodyLarge),
             ),
-            // Radio button (preto/branco — segue a cor primária do tema).
-            // O valor do grupo vem do RadioGroup lá em cima.
             Radio<bool>(value: value),
           ],
         ),

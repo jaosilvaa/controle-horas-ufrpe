@@ -43,8 +43,6 @@ class _SplashPageState extends State<SplashPage>
       curve: const Interval(0.65, 0.9, curve: Curves.easeOut),
     );
 
-    // Só inicia o desenho depois do primeiro frame visível, senão a
-    // animação avança "escondida" atrás da splash nativa do Android/iOS.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) _controller.forward();
     });

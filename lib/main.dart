@@ -14,8 +14,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await prepareSystemUI();
 
-  // Conecta ao Supabase antes de iniciar o app. Só inicializa se as chaves
-  // já tiverem sido preenchidas em supabase_config.dart.
   if (SupabaseConfig.isConfigured) {
     await Supabase.initialize(
       url: SupabaseConfig.url,
@@ -25,9 +23,6 @@ void main() async {
 
   setupInjection();
 
-  // Carrega o tema salvo ANTES do primeiro frame, senão o app nasce sempre
-  // no tema padrão (dark) por uma fração de segundo, mesmo que o usuário
-  // tenha escolhido o claro.
   await sl<ThemeController>().init();
 
   runApp(const AppProviders(child: App()));

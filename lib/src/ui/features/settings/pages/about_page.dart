@@ -31,7 +31,6 @@ class AboutPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── Cabeçalho: logo + nome ──────────────────────────────────
             Center(
               child: Column(
                 children: [
@@ -42,8 +41,6 @@ class AboutPage extends StatelessWidget {
                       width: 88,
                       height: 88,
                       fit: BoxFit.cover,
-                      // logo.png é 3072x3072 — decodifica só no tamanho exibido
-                      // pra não travar o frame.
                       cacheWidth:
                           (88 * MediaQuery.devicePixelRatioOf(context))
                               .round(),

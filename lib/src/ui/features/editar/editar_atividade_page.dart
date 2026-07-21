@@ -168,7 +168,6 @@ class _EditarAtividadePageState extends State<EditarAtividadePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ── Chips de info somente-leitura ────────────────────────
               _Label('Informações', isDark: isDark),
               const SizedBox(height: 10),
               Wrap(
@@ -182,7 +181,6 @@ class _EditarAtividadePageState extends State<EditarAtividadePage> {
               ),
               const SizedBox(height: 24),
 
-              // ── Título ───────────────────────────────────────────────
               _Label('Título', isDark: isDark),
               const SizedBox(height: 8),
               _DarkTextField(
@@ -195,7 +193,6 @@ class _EditarAtividadePageState extends State<EditarAtividadePage> {
               ),
               const SizedBox(height: 20),
 
-              // ── Horas ────────────────────────────────────────────────
               _Label('Horas calculadas', isDark: isDark),
               const SizedBox(height: 8),
               _DarkTextField(
@@ -213,7 +210,6 @@ class _EditarAtividadePageState extends State<EditarAtividadePage> {
               ),
               const SizedBox(height: 20),
 
-              // ── Datas ────────────────────────────────────────────────
               _Label('Datas (opcionais)', isDark: isDark),
               const SizedBox(height: 8),
               Row(
@@ -252,7 +248,6 @@ class _EditarAtividadePageState extends State<EditarAtividadePage> {
               ),
               const SizedBox(height: 36),
 
-              // ── Botão salvar ─────────────────────────────────────────
               SizedBox(
                 width: double.infinity,
                 height: 52,
@@ -294,10 +289,6 @@ class _EditarAtividadePageState extends State<EditarAtividadePage> {
     );
   }
 }
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Widgets reutilizáveis — mesmo padrão das telas de cadastro
-// ─────────────────────────────────────────────────────────────────────────────
 
 class _Label extends StatelessWidget {
   final String text;

@@ -35,8 +35,6 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
     if (!mounted) return;
     if (res.sucesso) {
-      // Senha trocada com sucesso. Mostra o aviso e desloga: assim o redirect
-      // das rotas leva a pessoa de volta pro /login, pra entrar com a senha nova.
       context.showFeedback(res.mensagem);
       await auth.sair();
     } else {

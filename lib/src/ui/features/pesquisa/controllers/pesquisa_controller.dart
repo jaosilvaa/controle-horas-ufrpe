@@ -93,8 +93,6 @@ class PesquisaController extends ChangeNotifier {
   String? tipoPublicacaoError;
   String? dataPublicacaoError;
 
-  // ─── Getters ──────────────────────────────────────────────────────────────
-
   PesquisaClassificacao? get classificacao => _classificacao;
   PesquisaTipo? get tipo => _tipo;
   TipoCalculo get tipoCalculo => _tipoCalculo;
@@ -177,8 +175,6 @@ class PesquisaController extends ChangeNotifier {
     };
   }
 
-  // ─── Setters ──────────────────────────────────────────────────────────────
-
   void setClassificacao(PesquisaClassificacao value) {
     _classificacao = value;
     _tipo = null;
@@ -230,8 +226,6 @@ class PesquisaController extends ChangeNotifier {
     notifyListeners();
   }
 
-  // ─── Persistência ─────────────────────────────────────────────────────────
-
   Future<AtividadeModel> salvar() {
     double horas;
     if (showPublicacaoFields) {
@@ -254,8 +248,6 @@ class PesquisaController extends ChangeNotifier {
     );
     return _repo.salvar(atividade);
   }
-
-  // ─── Validação ────────────────────────────────────────────────────────────
 
   bool validate() {
     final formValid = formKey.currentState?.validate() ?? false;

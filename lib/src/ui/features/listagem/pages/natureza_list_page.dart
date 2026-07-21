@@ -10,10 +10,6 @@ import 'package:controle_horas/src/shared/utils/context_extensions.dart';
 import 'package:controle_horas/src/ui/features/home/controllers/home_controller.dart';
 import '../controllers/natureza_list_controller.dart';
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Page
-// ─────────────────────────────────────────────────────────────────────────────
-
 class NaturezaListPage extends StatefulWidget {
   final String natureza; // 'ensino' | 'pesquisa' | 'extensao'
 
@@ -83,10 +79,6 @@ class _NaturezaListPageState extends State<NaturezaListPage> {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Empty state
-// ─────────────────────────────────────────────────────────────────────────────
-
 class _EmptyState extends StatelessWidget {
   final String natureza;
   const _EmptyState({required this.natureza});
@@ -148,10 +140,6 @@ class _EmptyState extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// List body
-// ─────────────────────────────────────────────────────────────────────────────
-
 class _ListBody extends StatelessWidget {
   final NaturezaListController ctrl;
   final IconData icon;
@@ -197,10 +185,6 @@ class _ListBody extends StatelessWidget {
     );
   }
 }
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Expansion card por classificação
-// ─────────────────────────────────────────────────────────────────────────────
 
 class _ClassificacaoCard extends StatefulWidget {
   final String classificacao;
@@ -395,10 +379,6 @@ class _ClassificacaoCardState extends State<_ClassificacaoCard>
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Swipeable tile
-// ─────────────────────────────────────────────────────────────────────────────
-
 class _SwipeableAtividadeTile extends StatefulWidget {
   final AtividadeModel atividade;
   final Future<void> Function(int id) onDelete;
@@ -583,9 +563,6 @@ class _SwipeableAtividadeTileState extends State<_SwipeableAtividadeTile>
                         ),
                       ),
                     ),
-                    // Botão sempre visível de editar/excluir. O swipe
-                    // continua funcionando, mas esse botão evita depender
-                    // só de um gesto escondido sem nenhuma pista visual.
                     PopupMenuButton<String>(
                       padding: EdgeInsets.zero,
                       icon: Icon(
@@ -688,10 +665,6 @@ class _SwipeableAtividadeTileState extends State<_SwipeableAtividadeTile>
     );
   }
 }
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Detail bottom sheet
-// ─────────────────────────────────────────────────────────────────────────────
 
 class _AtividadeDetalheSheet extends StatelessWidget {
   final AtividadeModel atividade;

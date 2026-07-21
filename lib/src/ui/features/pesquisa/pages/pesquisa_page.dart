@@ -61,7 +61,6 @@ class PesquisaPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ── TÍTULO ──────────────────────────────────────────────
               const _Label('Título'),
               const SizedBox(height: 8),
               _DarkTextField(
@@ -73,7 +72,6 @@ class PesquisaPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
 
-              // ── CLASSIFICAÇÃO ────────────────────────────────────────
               const _Label('Classificação'),
               const SizedBox(height: 8),
               _DropdownField(
@@ -84,7 +82,6 @@ class PesquisaPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
 
-              // ── TIPO ─────────────────────────────────────────────────
               const _Label('Tipo'),
               const SizedBox(height: 8),
               _DropdownField(
@@ -98,7 +95,6 @@ class PesquisaPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
 
-              // ── CAMPOS DE PUBLICAÇÃO TÉCNICO-CIENTÍFICA ──────────────
               if (ctrl.showPublicacaoFields) ...[
                 const _Label('Tipo de Publicação'),
                 const SizedBox(height: 8),
@@ -115,7 +111,6 @@ class PesquisaPage extends StatelessWidget {
                 const SizedBox(height: 20),
               ],
 
-              // ── CAMPOS DE CÁLCULO (apenas Projeto/Grupo de Pesquisa) ─
               if (ctrl.showCalculoFields) ...[
                 const _Label('Tipo de Cálculo'),
                 const SizedBox(height: 8),
@@ -196,7 +191,6 @@ class PesquisaPage extends StatelessWidget {
                 const SizedBox(height: 14),
               ],
 
-              // ── DATAS ────────────────────────────────────────────────
               if (ctrl.showPublicacaoFields) ...[
                 _DateField(
                   label: 'Data de publicação',
@@ -248,7 +242,6 @@ class PesquisaPage extends StatelessWidget {
                   ),
                 ],
 
-                // ── TOTAL DE HORAS (Estágio) ─────────────────────────
                 if (ctrl.showEstagioFields) ...[
                   const SizedBox(height: 20),
                   const _Label('Total de Horas'),
@@ -268,7 +261,6 @@ class PesquisaPage extends StatelessWidget {
               ],
               const SizedBox(height: 32),
 
-              // ── BOTÃO CADASTRAR ──────────────────────────────────────
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -300,8 +292,6 @@ class PesquisaPage extends StatelessWidget {
     );
   }
 }
-
-// ─── Funções de página ────────────────────────────────────────────────────────
 
 void _showClassificacaoSheet(
     BuildContext context, PesquisaController ctrl) {
@@ -631,8 +621,6 @@ Future<void> _cadastrar(BuildContext context, PesquisaController ctrl) async {
   context.showFeedback('Atividade cadastrada com sucesso!');
   context.pop();
 }
-
-// ─── Widgets privados ─────────────────────────────────────────────────────────
 
 class _Label extends StatelessWidget {
   final String text;

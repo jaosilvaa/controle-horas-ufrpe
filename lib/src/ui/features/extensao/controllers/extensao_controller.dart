@@ -4,8 +4,6 @@ import 'package:controle_horas/src/data/repositories/atividade_repository.dart';
 import 'package:controle_horas/src/shared/models/tipo_calculo.dart';
 export 'package:controle_horas/src/shared/models/tipo_calculo.dart';
 
-// ─── Classificações ───────────────────────────────────────────────────────────
-
 enum ExtensaoClassificacao {
   cursoDeExtensao,
   programaDeExtensao,
@@ -23,8 +21,6 @@ enum ExtensaoClassificacao {
         ExtensaoClassificacao.prestacaoDeServico => 'Prestação de Serviço',
       };
 }
-
-// ─── Tipos ────────────────────────────────────────────────────────────────────
 
 enum ExtensaoTipo {
   // Curso de Extensão
@@ -74,8 +70,6 @@ enum ExtensaoTipo {
       };
 }
 
-// ─── Participação em Evento ───────────────────────────────────────────────────
-
 enum EventoParticipacao {
   participante,
   palestrante,
@@ -91,8 +85,6 @@ enum EventoParticipacao {
         EventoParticipacao.moderador => 'Moderador / Debatedor',
       };
 }
-
-// ─── Controller ───────────────────────────────────────────────────────────────
 
 class ExtensaoController extends ChangeNotifier {
   final AtividadeRepository _repo;
@@ -133,7 +125,6 @@ class ExtensaoController extends ChangeNotifier {
   bool _primeiroTurno = false;
   bool _segundoTurno = false;
 
-  // ── Erros ────────────────────────────────────────────────────────────────────
   String? classificacaoError;
   String? tipoError;
   String? cargaSimError;
@@ -144,8 +135,6 @@ class ExtensaoController extends ChangeNotifier {
   String? dateRangeError;
   String? participacaoError;
   String? elecaoTurnoError;
-
-  // ─── Getters ────────────────────────────────────────────────────────────────
 
   ExtensaoClassificacao? get classificacao => _classificacao;
   ExtensaoTipo? get tipo => _tipo;
@@ -291,8 +280,6 @@ class ExtensaoController extends ChangeNotifier {
     };
   }
 
-  // ─── Setters ────────────────────────────────────────────────────────────────
-
   void setClassificacao(ExtensaoClassificacao value) {
     _classificacao = value;
     _tipo = null;
@@ -402,8 +389,6 @@ class ExtensaoController extends ChangeNotifier {
     elecaoTurnoError = null;
   }
 
-  // ─── Persistência ───────────────────────────────────────────────────────────
-
   Future<AtividadeModel> salvar() {
     double horas;
     if (showCalculoFields) {
@@ -430,8 +415,6 @@ class ExtensaoController extends ChangeNotifier {
     );
     return _repo.salvar(atividade);
   }
-
-  // ─── Validação ──────────────────────────────────────────────────────────────
 
   bool validate() {
     final formValid = formKey.currentState?.validate() ?? false;
@@ -514,10 +497,6 @@ class ExtensaoController extends ChangeNotifier {
       if (_dataFinal != null && _dataFinal!.isAfter(DateTime.now())) {
         dataFinalError = 'Data final não pode ser no futuro';
       } else if (_dataInicial != null && _dataFinal != null) {
-        // Curso de Extensão (Palestra, Competições, etc.) pode durar só um
-        // dia, então data final igual à inicial é válida. Só Programa/
-        // Projeto de Extensão (showCalculoFields, duração em semestres)
-        // exige data final estritamente depois da inicial.
         final periodoInvalido = showCalculoFields
             ? !_dataFinal!.isAfter(_dataInicial!)
             : _dataFinal!.isBefore(_dataInicial!);

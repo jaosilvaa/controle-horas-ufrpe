@@ -13,8 +13,6 @@ class GoogleSignInButton extends StatelessWidget {
     final res = await auth.entrarComGoogle();
 
     if (!context.mounted) return;
-    // Em caso de sucesso, o redirect do go_router leva pra home sozinho.
-    // Só mostramos mensagem de erro (mensagem vazia = usuário cancelou).
     if (!res.sucesso && res.mensagem.isNotEmpty) {
       context.showFeedback(res.mensagem, type: FeedbackType.error);
     }

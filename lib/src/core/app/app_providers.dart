@@ -14,8 +14,6 @@ class AppProviders extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        // Já inicializado em main() antes do runApp, pra evitar o "flash"
-        // do tema padrão antes do tema salvo ser carregado.
         ChangeNotifierProvider(create: (_) => sl<ThemeController>()),
         ChangeNotifierProvider(
           create: (_) => sl<HomeController>()..carregar(),
