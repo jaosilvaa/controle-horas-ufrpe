@@ -187,7 +187,13 @@ class PesquisaPage extends StatelessWidget {
                 const _Label('Total de horas'),
                 const SizedBox(height: 8),
                 _TotalHorasDisplay(horas: ctrl.totalHoras),
-                const SizedBox(height: 20),
+                const SizedBox(height: 6),
+                if (ctrl.totalAtingiuLimite)
+                  _HelperText(
+                    'Apenas 120h/a são contabilizadas nesta classificação, mesmo que o cálculo dê um valor maior.',
+                    isWarning: true,
+                  ),
+                const SizedBox(height: 14),
               ],
 
               // ── DATAS ────────────────────────────────────────────────
@@ -620,8 +626,8 @@ Future<void> _cadastrar(BuildContext context, PesquisaController ctrl) async {
   }
 
   await ctrl.salvar();
+  await homeCtrl.carregar();
   if (!context.mounted) return;
-  homeCtrl.carregar();
   context.showFeedback('Atividade cadastrada com sucesso!');
   context.pop();
 }

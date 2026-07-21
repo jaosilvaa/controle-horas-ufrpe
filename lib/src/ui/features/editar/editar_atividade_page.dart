@@ -84,7 +84,9 @@ class _EditarAtividadePageState extends State<EditarAtividadePage> {
     setState(() {
       _horasError =
           (horas == null || horas <= 0) ? 'Informe um valor válido' : null;
-      if (_dataInicial != null && _dataFinal != null) {
+      if (_dataFinal != null && _dataFinal!.isAfter(DateTime.now())) {
+        _dataFinalError = 'Data final não pode ser no futuro';
+      } else if (_dataInicial != null && _dataFinal != null) {
         _dataFinalError = !_dataFinal!.isAfter(_dataInicial!)
             ? 'Data final deve ser após a inicial'
             : null;

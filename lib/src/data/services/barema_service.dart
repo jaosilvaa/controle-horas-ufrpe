@@ -2,7 +2,9 @@ import 'package:controle_horas/src/data/models/atividade_model.dart';
 
 /// Aplica as regras do barema AC (BSI):
 /// - Por classificação: soma das horas → arredonda para baixo ao múltiplo de 15 → limita a 120h
-/// - Por natureza: soma das classificações → limita a 360h
+/// - Por natureza: soma das classificações → limita a 360h (uma natureza pode,
+///   sozinha, chegar às 360h; o teto de 120h existe só na classificação)
+/// - Total do curso: soma das três naturezas → nunca passa de 360h
 class BaremaService {
   static const double maxPorClassificacao = 120;
   static const double maxPorNatureza = 360;

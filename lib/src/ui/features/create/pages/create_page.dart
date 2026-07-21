@@ -45,6 +45,7 @@ class CreatePage extends StatelessWidget {
                     child: _NaturezaCard(
                       icon: Iconsax.teacher,
                       text: 'Cadastrar\nEnsino',
+                      cardColor: const Color(0xFFF8D16A),
                       onTap: () => context.push('/ensino/novo'),
                     ),
                   ),
@@ -57,6 +58,7 @@ class CreatePage extends StatelessWidget {
                           child: _NaturezaCard(
                             icon: Iconsax.search_normal,
                             text: 'Cadastrar\nPesquisa',
+                            cardColor: const Color(0xFFA976FF),
                             onTap: () => context.push('/pesquisa/novo'),
                           ),
                         ),
@@ -65,6 +67,7 @@ class CreatePage extends StatelessWidget {
                           child: _NaturezaCard(
                             icon: Iconsax.global,
                             text: 'Cadastrar\nExtensão',
+                            cardColor: const Color(0xFF4C9BFF),
                             onTap: () => context.push('/extensao/novo'),
                           ),
                         ),
@@ -86,10 +89,14 @@ class _NaturezaCard extends StatelessWidget {
   final String text;
   final VoidCallback onTap;
 
+  /// Cor de fundo do card (mesma no dark e no light).
+  final Color cardColor;
+
   const _NaturezaCard({
     required this.icon,
     required this.text,
     required this.onTap,
+    required this.cardColor,
   });
 
   @override
@@ -99,11 +106,10 @@ class _NaturezaCard extends StatelessWidget {
 
     final iconContainerColor =
         isDark ? AppColors.darkIconContainer : AppColors.neutralMidLightGrey;
-    final iconColor = isDark ? AppColors.white : AppColors.neutralGrey900;
     final textColor = isDark ? AppColors.white : AppColors.neutralGrey900;
 
     return Material(
-      color: theme.colorScheme.surface,
+      color: cardColor,
       borderRadius: BorderRadius.circular(20),
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
@@ -123,7 +129,11 @@ class _NaturezaCard extends StatelessWidget {
               CircleAvatar(
                 radius: 29,
                 backgroundColor: iconContainerColor,
-                child: Icon(icon, size: 24, color: iconColor),
+                child: Icon(
+                  icon,
+                  size: 24,
+                  color: isDark ? AppColors.white : AppColors.neutralGrey900,
+                ),
               ),
               const SizedBox(height: 20),
               Text(

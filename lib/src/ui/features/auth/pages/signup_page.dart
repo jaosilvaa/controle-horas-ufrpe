@@ -78,8 +78,13 @@ class _SignupPageState extends State<SignupPage> {
                     label: 'Email',
                     icon: Icons.email_outlined,
                     keyboardType: TextInputType.emailAddress,
-                    validator: (v) =>
-                        (v == null || !v.contains('@')) ? 'Email inválido' : null,
+                    validator: (v) {
+                      final email = v?.trim() ?? '';
+                      final regex = RegExp(
+                        r'^[\w\.\-+]+@[\w\-]+\.[a-zA-Z]{2,}$',
+                      );
+                      return regex.hasMatch(email) ? null : 'Email inválido';
+                    },
                   ),
                   const SizedBox(height: 16),
                   AuthTextField(

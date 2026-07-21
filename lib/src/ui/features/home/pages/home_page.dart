@@ -21,6 +21,11 @@ class HomePage extends StatelessWidget {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
 
+    // Cores por natureza: mesma cor nos dois temas.
+    const corEnsino = Color(0xFFF8D16A);
+    const corPesquisa = Color(0xFFA976FF);
+    const corExtensao = Color(0xFF4C9BFF);
+
     return Scaffold(
       appBar: AppBar(
         // Light: preto (padrão de fundo escuro). Dark: branco (inverso).
@@ -71,6 +76,7 @@ class HomePage extends StatelessWidget {
                     subtitle: '${resumo.ensino.toInt()}h / 360h',
                     progress: resumo.progressEnsino,
                     icon: Iconsax.teacher,
+                    progressColor: corEnsino,
                     onTap: () => context.push('/listagem/ensino'),
                   ),
                   const SizedBox(height: 12),
@@ -79,6 +85,7 @@ class HomePage extends StatelessWidget {
                     subtitle: '${resumo.pesquisa.toInt()}h / 360h',
                     progress: resumo.progressPesquisa,
                     icon: Iconsax.microscope,
+                    progressColor: corPesquisa,
                     onTap: () => context.push('/listagem/pesquisa'),
                   ),
                   const SizedBox(height: 12),
@@ -87,6 +94,7 @@ class HomePage extends StatelessWidget {
                     subtitle: '${resumo.extensao.toInt()}h / 360h',
                     progress: resumo.progressExtensao,
                     icon: Iconsax.global,
+                    progressColor: corExtensao,
                     onTap: () => context.push('/listagem/extensao'),
                   ),
                   const SizedBox(height: 110),

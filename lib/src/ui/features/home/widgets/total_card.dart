@@ -101,6 +101,14 @@ class TotalCard extends StatelessWidget {
                         progress: value,
                         trackColor: trackColor,
                         progressColor: progressColor,
+                        progressGradient: const LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.white,
+                            Color(0xFFF8D16A),
+                          ],
+                        ),
                       ),
                       child: Center(
                         child: Text(

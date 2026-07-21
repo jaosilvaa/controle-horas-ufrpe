@@ -4,12 +4,18 @@ import 'package:flutter/material.dart';
 class CircularProgressPainter extends CustomPainter {
   final double progress;
   final Color trackColor;
+
+  /// Cor sólida do arco de progresso. Ignorada se [progressGradient] for informado.
   final Color progressColor;
+
+  /// Gradiente opcional do arco de progresso (tem prioridade sobre [progressColor]).
+  final Gradient? progressGradient;
 
   const CircularProgressPainter({
     required this.progress,
     required this.trackColor,
     required this.progressColor,
+    this.progressGradient,
   });
 
   @override
@@ -24,13 +30,18 @@ class CircularProgressPainter extends CustomPainter {
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round;
 
+    final rect = Rect.fromCircle(center: center, radius: radius);
+
     final progressPaint = Paint()
-      ..color = progressColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round;
 
-    final rect = Rect.fromCircle(center: center, radius: radius);
+    if (progressGradient != null) {
+      progressPaint.shader = progressGradient!.createShader(rect);
+    } else {
+      progressPaint.color = progressColor;
+    }
 
     canvas.drawCircle(center, radius, trackPaint);
     canvas.drawArc(rect, -pi / 2, 2 * pi * progress, false, progressPaint);
@@ -40,5 +51,6 @@ class CircularProgressPainter extends CustomPainter {
   bool shouldRepaint(CircularProgressPainter old) =>
       old.progress != progress ||
       old.trackColor != trackColor ||
-      old.progressColor != progressColor;
+      old.progressColor != progressColor ||
+      old.progressGradient != progressGradient;
 }

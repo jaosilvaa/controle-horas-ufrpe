@@ -131,6 +131,16 @@ class EnsinoController extends ChangeNotifier {
     return n * 15.0;
   }
 
+  /// True quando o valor calculado do fluxo ativo ultrapassa o teto de 120h
+  /// da classificação (apenas 120h/a são contabilizadas, mesmo que a conta
+  /// dê um valor maior).
+  bool get atingiuLimite {
+    if (showCalculoFields) return totalHorasCalculo >= 120;
+    if (showCargaX3Fields) return totalHorasCargaX3 >= 120;
+    if (showArtefatosFields) return totalHorasArtefatos >= 120;
+    return false;
+  }
+
   /// Hint do Título varia conforme o tipo selecionado
   String get tituloHint {
     if (_tipo == null) return 'Ex: Título da atividade';
@@ -283,7 +293,9 @@ class EnsinoController extends ChangeNotifier {
       dataFinalError = _dataFinal == null ? 'Selecione a data final' : null;
       dateRangeError = null;
 
-      if (_dataInicial != null && _dataFinal != null) {
+      if (_dataFinal != null && _dataFinal!.isAfter(DateTime.now())) {
+        dataFinalError = 'Data final não pode ser no futuro';
+      } else if (_dataInicial != null && _dataFinal != null) {
         if (!_dataFinal!.isAfter(_dataInicial!)) {
           dataFinalError = 'Data final deve ser após a data inicial';
         } else if (_tipoCalculo == TipoCalculo.porSemestre) {
@@ -309,9 +321,13 @@ class EnsinoController extends ChangeNotifier {
       final carga = double.tryParse(cargaSimController.text.trim());
       cargaSimError =
           (carga == null || carga <= 0) ? 'Informe a carga horária' : null;
-      dataApresentacaoError = _dataApresentacao == null
-          ? 'Selecione a data de apresentação'
-          : null;
+      if (_dataApresentacao == null) {
+        dataApresentacaoError = 'Selecione a data de apresentação';
+      } else if (_dataApresentacao!.isAfter(DateTime.now())) {
+        dataApresentacaoError = 'Data de apresentação não pode ser no futuro';
+      } else {
+        dataApresentacaoError = null;
+      }
     } else if (showArtefatosFields) {
       dataInicialError = null;
       dataFinalError = null;
@@ -320,9 +336,13 @@ class EnsinoController extends ChangeNotifier {
       final n = int.tryParse(artefatosController.text.trim());
       artefatosError =
           (n == null || n <= 0) ? 'Informe a quantidade de artefatos' : null;
-      dataApresentacaoError = _dataApresentacao == null
-          ? 'Selecione a data de apresentação'
-          : null;
+      if (_dataApresentacao == null) {
+        dataApresentacaoError = 'Selecione a data de apresentação';
+      } else if (_dataApresentacao!.isAfter(DateTime.now())) {
+        dataApresentacaoError = 'Data de apresentação não pode ser no futuro';
+      } else {
+        dataApresentacaoError = null;
+      }
     } else {
       cargaSimError = null;
       artefatosError = null;

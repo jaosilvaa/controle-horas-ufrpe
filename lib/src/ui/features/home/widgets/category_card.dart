@@ -9,6 +9,9 @@ class CategoryCard extends StatelessWidget {
   final IconData icon;
   final VoidCallback? onTap;
 
+  /// Cor da barra de progresso. Se nula, usa a cor padrão (preto/branco).
+  final Color? progressColor;
+
   const CategoryCard({
     super.key,
     required this.title,
@@ -16,6 +19,7 @@ class CategoryCard extends StatelessWidget {
     required this.progress,
     required this.icon,
     this.onTap,
+    this.progressColor,
   });
 
   @override
@@ -118,7 +122,8 @@ class CategoryCard extends StatelessWidget {
                         value: value,
                         backgroundColor: progressBgColor,
                         valueColor: AlwaysStoppedAnimation<Color>(
-                          isDark ? Colors.white : AppColors.neutralGrey900,
+                          progressColor ??
+                              (isDark ? Colors.white : AppColors.neutralGrey900),
                         ),
                         minHeight: 5,
                       ),

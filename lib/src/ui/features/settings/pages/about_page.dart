@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:controle_horas/src/ui/widgets/custom_app_bar.dart';
+
+/// Link do documento oficial do barema de Atividades Complementares (BSI).
+const _baremaPdfUrl =
+    'https://drive.google.com/file/d/1Au0GF-FSdMT-1g6JsMPUZywWAoYiyA1p/view?usp=drive_link';
 
 /// Tela "Sobre o App": resume o que é o AcadBSI.
 class AboutPage extends StatelessWidget {
@@ -93,6 +98,27 @@ class AboutPage extends StatelessWidget {
               ],
             ),
             _Secao(
+              titulo: 'Como funciona o barema',
+              texto:
+                  'As horas de cada atividade são somadas dentro da sua '
+                  'classificação (ex: Monitoria, Estágio, Projeto de Extensão). '
+                  'Cada classificação tem um teto de 120h — mesmo que a conta '
+                  'dê um valor maior, só 120h entram no total. Uma mesma '
+                  'natureza (Ensino, Pesquisa ou Extensão) pode reunir várias '
+                  'classificações diferentes, então ela pode somar mais de '
+                  '120h. O que nunca passa de 360h é a soma das três '
+                  'naturezas juntas, que é a meta total do curso.',
+            ),
+            _SecaoLista(
+              titulo: 'Resumindo os limites',
+              itens: const [
+                'Por classificação: no máximo 120h',
+                'Por natureza (Ensino, Pesquisa ou Extensão): soma das classificações dessa natureza, sem teto próprio',
+                'Total do curso: no máximo 360h, somando as três naturezas',
+              ],
+            ),
+            _BaremaPdfButton(),
+            _Secao(
               titulo: 'Para quem é',
               texto:
                   'Estudantes de BSI da UAST/UFRPE que precisam acompanhar suas '
@@ -109,6 +135,44 @@ class AboutPage extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Botão que abre o PDF oficial do barema no navegador/app de PDF do usuário.
+class _BaremaPdfButton extends StatelessWidget {
+  const _BaremaPdfButton();
+
+  Future<void> _abrirPdf(BuildContext context) async {
+    final uri = Uri.parse(_baremaPdfUrl);
+    final abriu = await launchUrl(uri, mode: LaunchMode.externalApplication);
+    if (!abriu && context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Não foi possível abrir o link.')),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 24),
+      child: OutlinedButton.icon(
+        onPressed: () => _abrirPdf(context),
+        icon: const Icon(Iconsax.document_text, size: 18),
+        label: const Text('Ver barema completo (PDF)'),
+        style: OutlinedButton.styleFrom(
+          foregroundColor: theme.colorScheme.onSurface,
+          side: BorderSide(
+            color: theme.colorScheme.onSurface.withValues(alpha: 0.2),
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
         ),
       ),
     );

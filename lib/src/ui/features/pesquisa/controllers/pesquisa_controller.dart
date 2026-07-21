@@ -145,6 +145,9 @@ class PesquisaController extends ChangeNotifier {
     return fromSemestres > fromCarga ? fromSemestres : fromCarga;
   }
 
+  /// True quando o valor calculado ultrapassa o teto de 120h da classificação.
+  bool get totalAtingiuLimite => totalHoras >= 120;
+
   /// Hint do Título varia conforme o tipo selecionado
   String get tituloHint {
     if (_tipo == null) return 'Ex: Título da atividade';
@@ -266,8 +269,13 @@ class PesquisaController extends ChangeNotifier {
       tipoPublicacaoError = _tipoPublicacao == null
           ? 'Selecione o tipo de publicação'
           : null;
-      dataPublicacaoError =
-          _dataPublicacao == null ? 'Selecione a data de publicação' : null;
+      if (_dataPublicacao == null) {
+        dataPublicacaoError = 'Selecione a data de publicação';
+      } else if (_dataPublicacao!.isAfter(DateTime.now())) {
+        dataPublicacaoError = 'Data de publicação não pode ser no futuro';
+      } else {
+        dataPublicacaoError = null;
+      }
       dataInicialError = null;
       dataFinalError = null;
       dateRangeError = null;
@@ -280,7 +288,9 @@ class PesquisaController extends ChangeNotifier {
       dataFinalError = _dataFinal == null ? 'Selecione a data final' : null;
       dateRangeError = null;
 
-      if (_dataInicial != null && _dataFinal != null) {
+      if (_dataFinal != null && _dataFinal!.isAfter(DateTime.now())) {
+        dataFinalError = 'Data final não pode ser no futuro';
+      } else if (_dataInicial != null && _dataFinal != null) {
         if (!_dataFinal!.isAfter(_dataInicial!)) {
           dataFinalError = 'Data final deve ser após a data inicial';
         } else if (showCalculoFields &&

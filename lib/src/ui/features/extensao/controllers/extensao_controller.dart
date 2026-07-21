@@ -222,6 +222,18 @@ class ExtensaoController extends ChangeNotifier {
     return base * 2;
   }
 
+  /// True quando o valor calculado do fluxo ativo ultrapassa o teto de 120h
+  /// da classificação (apenas 120h/a são contabilizadas, mesmo que a conta
+  /// dê um valor maior).
+  bool get atingiuLimite {
+    if (showElecaoFields) return totalHorasEleicao >= 120;
+    if (showProdutoFields) return totalHorasArtefatos >= 120;
+    if (showEventoFields) return totalHorasEvento >= 120;
+    if (showCalculoFields) return totalHorasCalculo >= 120;
+    if (showCargaFields) return totalHorasCurso >= 120;
+    return false;
+  }
+
   String get tituloHint {
     if (_classificacao == null) return 'Ex: Título da atividade';
     if (_tipo == ExtensaoTipo.participacaoEmEleicao) {
@@ -438,9 +450,13 @@ class ExtensaoController extends ChangeNotifier {
       elecaoTurnoError = (!_treinamento && !_primeiroTurno && !_segundoTurno)
           ? 'Selecione pelo menos um turno'
           : null;
-      dataApresentacaoError = _dataApresentacao == null
-          ? 'Selecione a data de apresentação'
-          : null;
+      if (_dataApresentacao == null) {
+        dataApresentacaoError = 'Selecione a data de apresentação';
+      } else if (_dataApresentacao!.isAfter(DateTime.now())) {
+        dataApresentacaoError = 'Data de apresentação não pode ser no futuro';
+      } else {
+        dataApresentacaoError = null;
+      }
     } else if (showProdutoFields) {
       tipoError = null;
       participacaoError = null;
@@ -451,9 +467,13 @@ class ExtensaoController extends ChangeNotifier {
       final n = int.tryParse(artefatosController.text.trim());
       artefatosError =
           (n == null || n <= 0) ? 'Informe a quantidade de artefatos' : null;
-      dataApresentacaoError = _dataApresentacao == null
-          ? 'Selecione a data de apresentação'
-          : null;
+      if (_dataApresentacao == null) {
+        dataApresentacaoError = 'Selecione a data de apresentação';
+      } else if (_dataApresentacao!.isAfter(DateTime.now())) {
+        dataApresentacaoError = 'Data de apresentação não pode ser no futuro';
+      } else {
+        dataApresentacaoError = null;
+      }
     } else if (showEventoFields) {
       tipoError = _tipo == null ? 'Selecione o tipo de evento' : null;
       participacaoError =
@@ -465,7 +485,9 @@ class ExtensaoController extends ChangeNotifier {
       dataInicialError =
           _dataInicial == null ? 'Selecione a data inicial' : null;
       dataFinalError = _dataFinal == null ? 'Selecione a data final' : null;
-      if (_dataInicial != null && _dataFinal != null) {
+      if (_dataFinal != null && _dataFinal!.isAfter(DateTime.now())) {
+        dataFinalError = 'Data final não pode ser no futuro';
+      } else if (_dataInicial != null && _dataFinal != null) {
         if (!_dataFinal!.isAfter(_dataInicial!)) {
           dataFinalError = 'Data final deve ser após a data inicial';
         }
@@ -489,9 +511,20 @@ class ExtensaoController extends ChangeNotifier {
         cargaSimError = null;
       }
 
-      if (_dataInicial != null && _dataFinal != null) {
-        if (!_dataFinal!.isAfter(_dataInicial!)) {
-          dataFinalError = 'Data final deve ser após a data inicial';
+      if (_dataFinal != null && _dataFinal!.isAfter(DateTime.now())) {
+        dataFinalError = 'Data final não pode ser no futuro';
+      } else if (_dataInicial != null && _dataFinal != null) {
+        // Curso de Extensão (Palestra, Competições, etc.) pode durar só um
+        // dia, então data final igual à inicial é válida. Só Programa/
+        // Projeto de Extensão (showCalculoFields, duração em semestres)
+        // exige data final estritamente depois da inicial.
+        final periodoInvalido = showCalculoFields
+            ? !_dataFinal!.isAfter(_dataInicial!)
+            : _dataFinal!.isBefore(_dataInicial!);
+        if (periodoInvalido) {
+          dataFinalError = showCalculoFields
+              ? 'Data final deve ser após a data inicial'
+              : 'Data final não pode ser antes da data inicial';
         } else if (showCalculoFields &&
             _tipoCalculo == TipoCalculo.porSemestre) {
           final semestres =

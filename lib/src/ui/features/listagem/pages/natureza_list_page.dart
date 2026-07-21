@@ -164,7 +164,7 @@ class _ListBody extends StatelessWidget {
       await ctrl.carregar();
       // Recarrega HomeController para atualizar as progress bars na home
       if (context.mounted) {
-        context.read<HomeController>().carregar();
+        await context.read<HomeController>().carregar();
       }
     }
   }
@@ -188,7 +188,7 @@ class _ListBody extends StatelessWidget {
           onDelete: (id) async {
             await ctrl.deletar(id);
             if (context.mounted) {
-              context.read<HomeController>().carregar();
+              await context.read<HomeController>().carregar();
             }
           },
           onEdit: (a) => _navegarParaEdicao(context, a),
@@ -582,6 +582,49 @@ class _SwipeableAtividadeTileState extends State<_SwipeableAtividadeTile>
                           color: horasColor,
                         ),
                       ),
+                    ),
+                    // Botão sempre visível de editar/excluir. O swipe
+                    // continua funcionando, mas esse botão evita depender
+                    // só de um gesto escondido sem nenhuma pista visual.
+                    PopupMenuButton<String>(
+                      padding: EdgeInsets.zero,
+                      icon: Icon(
+                        Icons.more_vert_rounded,
+                        size: 18,
+                        color: horasColor,
+                      ),
+                      onSelected: (value) {
+                        if (value == 'editar') {
+                          _showDetalhes(context, openEdit: true);
+                        } else if (value == 'excluir') {
+                          _confirmDelete(context);
+                        }
+                      },
+                      itemBuilder: (context) => const [
+                        PopupMenuItem(
+                          value: 'editar',
+                          child: Row(
+                            children: [
+                              Icon(Icons.edit_outlined, size: 18),
+                              SizedBox(width: 10),
+                              Text('Editar'),
+                            ],
+                          ),
+                        ),
+                        PopupMenuItem(
+                          value: 'excluir',
+                          child: Row(
+                            children: [
+                              Icon(Icons.delete_outline_rounded,
+                                  size: 18, color: Color(0xFFFF4D4D)),
+                              SizedBox(width: 10),
+                              Text('Excluir',
+                                  style:
+                                      TextStyle(color: Color(0xFFFF4D4D))),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

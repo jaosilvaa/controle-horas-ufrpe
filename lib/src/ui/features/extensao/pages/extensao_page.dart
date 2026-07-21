@@ -168,6 +168,13 @@ class ExtensaoPage extends StatelessWidget {
                 const _Label('Total de horas'),
                 const SizedBox(height: 8),
                 _TotalHorasDisplay(horas: ctrl.totalHorasCalculo),
+                if (ctrl.atingiuLimite) ...[
+                  const SizedBox(height: 6),
+                  const _HelperText(
+                    'Apenas 120h/a são contabilizadas nesta classificação, mesmo que o cálculo dê um valor maior.',
+                    isWarning: true,
+                  ),
+                ],
                 const SizedBox(height: 20),
               ],
 
@@ -209,6 +216,13 @@ class ExtensaoPage extends StatelessWidget {
                 const _Label('Total de horas'),
                 const SizedBox(height: 8),
                 _TotalHorasDisplay(horas: ctrl.totalHorasCurso),
+                if (ctrl.atingiuLimite) ...[
+                  const SizedBox(height: 6),
+                  const _HelperText(
+                    'Apenas 120h/a são contabilizadas nesta classificação, mesmo que o cálculo dê um valor maior.',
+                    isWarning: true,
+                  ),
+                ],
                 const SizedBox(height: 20),
               ],
 
@@ -285,6 +299,13 @@ class ExtensaoPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 const _HelperText('Cada artefato equivale a 15h/a'),
+                if (ctrl.atingiuLimite) ...[
+                  const SizedBox(height: 6),
+                  const _HelperText(
+                    'Apenas 120h/a são contabilizadas nesta classificação, mesmo que o cálculo dê um valor maior.',
+                    isWarning: true,
+                  ),
+                ],
                 const SizedBox(height: 20),
                 _DateField(
                   label: 'Data de Apresentação',
@@ -717,8 +738,8 @@ Future<void> _cadastrar(BuildContext context, ExtensaoController ctrl) async {
   }
 
   await ctrl.salvar();
+  await homeCtrl.carregar();
   if (!context.mounted) return;
-  homeCtrl.carregar();
   context.showFeedback('Atividade cadastrada com sucesso!');
   context.pop();
 }
@@ -746,7 +767,8 @@ class _Label extends StatelessWidget {
 
 class _HelperText extends StatelessWidget {
   final String text;
-  const _HelperText(this.text);
+  final bool isWarning;
+  const _HelperText(this.text, {this.isWarning = false});
 
   @override
   Widget build(BuildContext context) {
@@ -754,9 +776,11 @@ class _HelperText extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
-        color: isDark
-            ? Colors.white.withValues(alpha: 0.4)
-            : AppColors.neutralBaseGrey,
+        color: isWarning
+            ? Colors.orange
+            : isDark
+                ? Colors.white.withValues(alpha: 0.4)
+                : AppColors.neutralBaseGrey,
         fontSize: 12,
       ),
     );
